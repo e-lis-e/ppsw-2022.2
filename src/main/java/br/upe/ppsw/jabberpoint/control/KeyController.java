@@ -1,7 +1,9 @@
-package br.upe.ppsw.jabberpoint.apresentacao;
+package br.upe.ppsw.jabberpoint.control;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+
+import br.upe.ppsw.jabberpoint.model.Presentation;
 
 public class KeyController extends KeyAdapter {
 
@@ -27,7 +29,7 @@ public class KeyController extends KeyAdapter {
       case 'q':
       case 'Q':
         System.exit(0);
-        break; // fix?
+        break; 
       default:
         break;
     }
