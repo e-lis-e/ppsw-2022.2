@@ -1,6 +1,9 @@
-package br.upe.ppsw.jabberpoint.model;
+package br.upe.ppsw.jabberpoint.control;
 
 import java.io.IOException;
+
+import br.upe.ppsw.jabberpoint.model.DemoPresentation;
+import br.upe.ppsw.jabberpoint.model.Presentation;
 
 public abstract class Accessor {
 
