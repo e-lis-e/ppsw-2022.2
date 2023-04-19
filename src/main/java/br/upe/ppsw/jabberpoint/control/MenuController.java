@@ -7,10 +7,11 @@ import java.awt.MenuItem;
 import java.awt.MenuShortcut;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import javax.swing.JOptionPane;
-import org.springframework.util.ResourceUtils;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import br.upe.ppsw.jabberpoint.model.Presentation;
 import br.upe.ppsw.jabberpoint.viewer.AboutBox;
 
@@ -49,23 +50,34 @@ public class MenuController extends MenuBar {
 
     Menu fileMenu = new Menu(FILE);
     fileMenu.add(menuItem = mkMenuItem(OPEN));
-
     menuItem.addActionListener(new ActionListener() {
-      public void actionPerformed(ActionEvent actionEvent) {
-        presentation.clear();
-
-        Accessor xmlAccessor = new XMLAccessor();
-        try {
-          xmlAccessor.loadFile(presentation, ResourceUtils.getFile(TESTFILE).getAbsolutePath());
-          presentation.setSlideNumber(0);
-        } catch (IOException exc) {
-          JOptionPane.showMessageDialog(parent, IOEX + exc, LOADERR, JOptionPane.ERROR_MESSAGE);
-        }
-
-        parent.repaint();
-      }
-    });
-
+    	  public void actionPerformed(ActionEvent actionEvent) {
+    	    presentation.clear();
+    	    Accessor accessor = null;
+    	    JFileChooser fileChooser = new JFileChooser();
+    	    int option = fileChooser.showOpenDialog(parent);
+    	    if (option == JFileChooser.APPROVE_OPTION) {
+    	      File selectedFile = fileChooser.getSelectedFile();
+    	      String filename = selectedFile.getAbsolutePath();
+    	      String extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+    	      if (extension.equals("xml")) {
+    	        accessor = new XMLAccessor();
+    	      } else if (extension.equals("json")) {
+    	        accessor = new JSONAccessor();
+    	      } else {
+    	        JOptionPane.showMessageDialog(parent, "Unknown file type");
+    	      }
+    	      try {
+    	        accessor.loadFile(presentation, filename);
+    	        presentation.setSlideNumber(0);
+    	      } catch (IOException exc) {
+    	        JOptionPane.showMessageDialog(parent, IOEX + exc, LOADERR, JOptionPane.ERROR_MESSAGE);
+    	      }
+    	    }
+    	    parent.repaint();
+    	  }
+    	});
+    
     fileMenu.add(menuItem = mkMenuItem(NEW));
 
     menuItem.addActionListener(new ActionListener() {

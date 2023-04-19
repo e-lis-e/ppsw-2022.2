@@ -1,0 +1,62 @@
+{
+    "presentation": {
+        "showtitle": "XML-Based Presentation for Jabberpoint",
+        "slides": [
+            {
+                "title": "JabberPoint XML-Demo",
+                "items": [
+                    {
+                        "kind": "text",
+                        "level": "1",
+                        "text": "Bem vindo ao Jabberpoint"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "2",
+                        "text": "Copyright (c) 1996-2021 Ian Darwin"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "2",
+                        "text": "Reescrito por"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "2",
+                        "text": "Helaine Barreiros"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "1",
+                        "text": "Navegação:"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "2",
+                        "text": "Próximo Slide: PgDn ou Enter"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "2",
+                        "text": "Slide Anterior: PgUp ou up-arrow"
+                    },
+                    {
+                        "kind": "text",
+                        "level": "2",
+                        "text": "Parar: q ou Q"
+                    }
+                ]
+            },
+            {
+                "title": "Exemplo de um Slide vazio",
+                "items": [
+                    {
+                        "kind": "text",
+                        "level": "1",
+                        "text": " "
+                    }
+                ]
+            }
+        ]
+    }
+}
