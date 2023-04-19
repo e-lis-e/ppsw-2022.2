@@ -8,11 +8,11 @@ public class Style {
   private static Style[] styles;
 
   private static final String FONTNAME = "Helvetica";
-  int indent;
-  Color color;
+  public int indent;
+  public Color color;
   Font font;
   int fontSize;
-  int leading;
+  public int leading;
 
   public static void createStyles() {
     styles = new Style[5];
