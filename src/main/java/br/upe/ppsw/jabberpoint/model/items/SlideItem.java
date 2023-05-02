@@ -1,8 +1,10 @@
-package br.upe.ppsw.jabberpoint.model;
+package br.upe.ppsw.jabberpoint.model.items;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
+
+import br.upe.ppsw.jabberpoint.model.Style;
 
 public abstract class SlideItem {
 

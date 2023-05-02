@@ -1,4 +1,4 @@
-package br.upe.ppsw.jabberpoint.model;
+package br.upe.ppsw.jabberpoint.model.items;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,6 +14,9 @@ import java.text.AttributedString;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import br.upe.ppsw.jabberpoint.model.Slide;
+import br.upe.ppsw.jabberpoint.model.Style;
 
 
 public class TextItem extends SlideItem {
@@ -39,8 +42,10 @@ public class TextItem extends SlideItem {
   public AttributedString getAttributedString(Style style, float scale) {
     AttributedString attrStr = new AttributedString(getText());
 
-    attrStr.addAttribute(TextAttribute.FONT, style.getFont(scale), 0, text.length());
+    /* attrStr.addAttribute(TextAttribute.FONT, style.getFont(scale), 0, text.length()); */
 
+    int length = getText().length();
+    attrStr.addAttribute(TextAttribute.FONT, style.getFont(scale), 0, length > 0 ? length : 1);
     
     return attrStr;
   }
@@ -96,7 +101,7 @@ public class TextItem extends SlideItem {
     }
   }
 
-  private List<TextLayout> getLayouts(Graphics g, Style s, float scale) {
+  public List<TextLayout> getLayouts(Graphics g, Style s, float scale) {
     List<TextLayout> layouts = new ArrayList<TextLayout>();
 
     AttributedString attrStr = getAttributedString(s, scale);

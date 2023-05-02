@@ -5,6 +5,9 @@ import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 import java.util.Vector;
 
+import br.upe.ppsw.jabberpoint.model.items.SlideItem;
+import br.upe.ppsw.jabberpoint.model.items.TextItem;
+
 public class Slide {
 
   public final static int WIDTH = 1200;

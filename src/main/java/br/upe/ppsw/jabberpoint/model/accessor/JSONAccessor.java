@@ -1,18 +1,22 @@
-package br.upe.ppsw.jabberpoint.control;
+package br.upe.ppsw.jabberpoint.model.accessor;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import br.upe.ppsw.jabberpoint.model.BitmapItem;
 import br.upe.ppsw.jabberpoint.model.Presentation;
 import br.upe.ppsw.jabberpoint.model.Slide;
-import br.upe.ppsw.jabberpoint.model.TextItem;
+import br.upe.ppsw.jabberpoint.model.items.BitmapItem;
+import br.upe.ppsw.jabberpoint.model.items.SlideItem;
+import br.upe.ppsw.jabberpoint.model.items.TextItem;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Vector;
 
 public class JSONAccessor extends Accessor {
 	
@@ -24,6 +28,7 @@ public class JSONAccessor extends Accessor {
 	  protected static final String KIND = "kind";
 	  protected static final String TEXT = "text";
 	  protected static final String IMAGE = "image";
+      protected static final String CONTENT = "content";
 
 	  protected static final String PCE = "Parser Configuration Exception";
 	  protected static final String UNKNOWNTYPE = "Unknown Element type";
@@ -55,12 +60,13 @@ public class JSONAccessor extends Accessor {
         } catch (JSONException e) {
             System.err.println(e.toString());
         }
+        
     }
 
     protected void loadSlideItem(Slide slide, JSONObject itemJson) {
         int level = itemJson.getInt(LEVEL);
         String kind = itemJson.getString(KIND);
-        String content = itemJson.getString("content");
+        String content = itemJson.getString(CONTENT);
 
         if ("text".equals(kind)) {
             slide.append(new TextItem(level, content));
@@ -73,8 +79,45 @@ public class JSONAccessor extends Accessor {
 
 
 	@Override
-	public void saveFile(Presentation presentation, String fileName) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
+    public void saveFile(Presentation presentation, String filename) throws IOException {
+        
+        JSONObject presentationObject = new JSONObject();
+        presentationObject.put(SHOWTITLE, presentation.getTitle());
+
+        JSONArray slideArray = new JSONArray();
+        for (int slideNumber = 0; slideNumber < presentation.getSize(); slideNumber++) {
+            Slide slide = presentation.getSlide(slideNumber);
+
+            JSONObject slideObject = new JSONObject();
+            slideObject.put(SLIDETITLE, slide.getTitle());
+
+            JSONArray slideItemArray = new JSONArray();
+            Vector<SlideItem> slideItems = slide.getSlideItems();
+            for (int itemNumber = 0; itemNumber < slideItems.size(); itemNumber++) {
+                SlideItem slideItem = slideItems.elementAt(itemNumber);
+
+                JSONObject slideItemObject = new JSONObject();
+                slideItemObject.put(LEVEL, slideItem.getLevel());
+
+                if (slideItem instanceof TextItem) {
+                    slideItemObject.put(KIND, TEXT);
+                    slideItemObject.put(TEXT, ((TextItem) slideItem).getText());
+                } else if (slideItem instanceof BitmapItem) {
+                    slideItemObject.put(KIND, IMAGE);
+                    slideItemObject.put(IMAGE, ((BitmapItem) slideItem).getName());
+                }
+
+                slideItemArray.put(slideItemObject);
+            }
+
+            slideObject.put(ITEM, slideItemArray);
+            slideArray.put(slideObject);
+        }
+
+        presentationObject.put(SLIDE, slideArray);
+
+        PrintWriter out = new PrintWriter(new FileWriter(filename));
+        out.println(presentationObject.toString());
+        out.close();
+    }
 }

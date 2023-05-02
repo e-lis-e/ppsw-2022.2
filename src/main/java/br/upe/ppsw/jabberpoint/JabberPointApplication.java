@@ -7,10 +7,10 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 
-import br.upe.ppsw.jabberpoint.control.Accessor;
-import br.upe.ppsw.jabberpoint.control.XMLAccessor;
 import br.upe.ppsw.jabberpoint.model.Presentation;
 import br.upe.ppsw.jabberpoint.model.Style;
+import br.upe.ppsw.jabberpoint.model.accessor.Accessor;
+import br.upe.ppsw.jabberpoint.model.accessor.XMLAccessor;
 import br.upe.ppsw.jabberpoint.viewer.SlideViewerFrame;
 
 @SpringBootApplication

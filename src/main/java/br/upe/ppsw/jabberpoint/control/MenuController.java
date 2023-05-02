@@ -12,7 +12,11 @@ import java.io.IOException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 import br.upe.ppsw.jabberpoint.model.Presentation;
+import br.upe.ppsw.jabberpoint.model.accessor.Accessor;
+import br.upe.ppsw.jabberpoint.model.accessor.JSONAccessor;
+import br.upe.ppsw.jabberpoint.model.accessor.XMLAccessor;
 import br.upe.ppsw.jabberpoint.viewer.AboutBox;
 
 public class MenuController extends MenuBar {
@@ -64,7 +68,7 @@ public class MenuController extends MenuBar {
     	        accessor = new XMLAccessor();
     	      } else if (extension.equals("json")) {
     	        accessor = new JSONAccessor();
-    	      } else {
+            } else {
     	        JOptionPane.showMessageDialog(parent, "Unknown file type");
     	      }
     	      try {
@@ -91,11 +95,28 @@ public class MenuController extends MenuBar {
 
     menuItem.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
-        Accessor xmlAccessor = new XMLAccessor();
-        try {
-          xmlAccessor.saveFile(presentation, SAVEFILE);
-        } catch (IOException exc) {
-          JOptionPane.showMessageDialog(parent, IOEX + exc, SAVEERR, JOptionPane.ERROR_MESSAGE);
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Salvar apresentação");
+        int option = fileChooser.showSaveDialog(parent);
+        if (option == JFileChooser.APPROVE_OPTION) {
+          File selectedFile = fileChooser.getSelectedFile();
+          String filename = selectedFile.getAbsolutePath();
+          String extension = filename.substring(filename.lastIndexOf(".") + 1).toLowerCase();
+          Accessor accessor = null;
+          if (extension.equals("xml")) {
+            accessor = new XMLAccessor();
+          } else if (extension.equals("json")) {
+            accessor = new JSONAccessor();
+          } else {
+            JOptionPane.showMessageDialog(parent, "Unknown file type");
+          }
+          if (accessor != null) {
+            try {
+              accessor.saveFile(presentation, filename);
+            } catch (IOException exc) {
+              JOptionPane.showMessageDialog(parent, IOEX + exc, SAVEERR, JOptionPane.ERROR_MESSAGE);
+            }
+          }
         }
       }
     });
